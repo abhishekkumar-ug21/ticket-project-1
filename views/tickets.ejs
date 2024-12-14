@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets</title>
+</head>
+<body>
+    <h1>Available Tickets</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Owner</th>
+                <th>Price</th>
+                <th>Resellable</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tickets.forEach(ticket => { %>
+                <tr>
+                    <td><%= ticket.ticketId %></td>
+                    <td><%= ticket.owner %></td>
+                    <td>$<%= ticket.price %></td>
+                    <td><%= ticket.isResellable ? "Yes" : "No" %></td>
+                    <td>
+                        <% if (ticket.owner === 'eventOrganizer') { %>
+                            <form action="/buy-ticket" method="POST">
+                                <input type="hidden" name="ticketId" value="<%= ticket.ticketId %>">
+                                <input type="hidden" name="price" value="<%= ticket.price %>">
+                                <input type="text" name="buyer" placeholder="Enter your name" required>
+                                <button type="submit">Buy Ticket</button>
+                            </form>
+                        <% } else { %>
+                            <p>Sold</p>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/">Go Back</a>
+</body>
+</html>
